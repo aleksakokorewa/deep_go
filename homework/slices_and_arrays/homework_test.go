@@ -1,81 +1,48 @@
 package main
 
 import (
-	"reflect"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
 )
 
 // go test -v homework_test.go
-func TestCircularQueue(t *testing.T) {
-	const queueSize = 3
-	queue := NewCircularQueue(queueSize)
-	queueGen := NewCircularQueueGen[int](queueSize)
 
-	assert.True(t, queue.Empty())
-	assert.True(t, queueGen.Empty())
-	assert.False(t, queue.Full())
-	assert.False(t, queueGen.Full())
+func ToLittleEndian(number uint32) uint32 {
+	return 0 // need to implement
+}
 
-	assert.Equal(t, -1, queue.Front())
-	assert.Equal(t, 0, queueGen.Front())
-	assert.Equal(t, -1, queue.Back())
-	assert.Equal(t, 0, queueGen.Back())
-	assert.False(t, queue.Pop())
-	assert.False(t, queueGen.Pop())
+func TestСonversion(t *testing.T) {
+	tests := map[string]struct {
+		number uint32
+		result uint32
+	}{
+		"test case #1": {
+			number: 0x00000000,
+			result: 0x00000000,
+		},
+		"test case #2": {
+			number: 0xFFFFFFFF,
+			result: 0xFFFFFFFF,
+		},
+		"test case #3": {
+			number: 0x00FF00FF,
+			result: 0xFF00FF00,
+		},
+		"test case #4": {
+			number: 0x0000FFFF,
+			result: 0xFFFF0000,
+		},
+		"test case #5": {
+			number: 0x01020304,
+			result: 0x04030201,
+		},
+	}
 
-	assert.True(t, queue.Push(1))
-	assert.True(t, queue.Push(2))
-	assert.True(t, queue.Push(3))
-	assert.False(t, queue.Push(4))
-
-	assert.True(t, queueGen.Push(1))
-	assert.True(t, queueGen.Push(2))
-	assert.True(t, queueGen.Push(3))
-	assert.False(t, queueGen.Push(4))
-
-	assert.True(t, reflect.DeepEqual([]int{1, 2, 3}, queue.values))
-	assert.True(t, reflect.DeepEqual([]int{1, 2, 3}, queueGen.values))
-
-	assert.False(t, queue.Empty())
-	assert.False(t, queueGen.Empty())
-	assert.True(t, queue.Full())
-	assert.True(t, queueGen.Full())
-
-	assert.Equal(t, 1, queue.Front())
-	assert.Equal(t, 1, queueGen.Front())
-	assert.Equal(t, 3, queue.Back())
-	assert.Equal(t, 3, queueGen.Back())
-
-	assert.True(t, queue.Pop())
-	assert.True(t, queueGen.Pop())
-	assert.False(t, queue.Empty())
-	assert.False(t, queueGen.Empty())
-	assert.False(t, queue.Full())
-	assert.False(t, queueGen.Full())
-	assert.True(t, queue.Push(4))
-	assert.True(t, queueGen.Push(4))
-
-	assert.True(t, reflect.DeepEqual([]int{4, 2, 3}, queue.values))
-	assert.True(t, reflect.DeepEqual([]int{4, 2, 3}, queueGen.values))
-
-	assert.Equal(t, 2, queue.Front())
-	assert.Equal(t, 2, queueGen.Front())
-	assert.Equal(t, 4, queue.Back())
-	assert.Equal(t, 4, queueGen.Back())
-
-	assert.True(t, queue.Pop())
-	assert.True(t, queueGen.Pop())
-	assert.True(t, queue.Pop())
-	assert.True(t, queueGen.Pop())
-	assert.True(t, queue.Pop())
-	assert.True(t, queueGen.Pop())
-	assert.False(t, queue.Pop())
-	assert.False(t, queueGen.Pop())
-
-	assert.True(t, queue.Empty())
-	assert.True(t, queueGen.Empty())
-	assert.False(t, queue.Full())
-	assert.False(t, queueGen.Full())
+	for name, test := range tests {
+		t.Run(name, func(t *testing.T) {
+			result := ToLittleEndian(test.number)
+			assert.Equal(t, test.result, result)
+		})
+	}
 }

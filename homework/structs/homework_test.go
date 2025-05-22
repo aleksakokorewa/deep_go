@@ -192,7 +192,7 @@ func (p *GamePerson) HasGun() bool {
 	return (p.attrs>>HasGunOffset)&OneBitMask == 1
 }
 
-func (p *GamePerson) HasFamily() bool {
+func (p *GamePerson) HasFamilty() bool {
 	return (p.attrs>>HasFamilyOffset)&OneBitMask == 1
 }
 
@@ -242,7 +242,7 @@ func TestGamePerson(t *testing.T) {
 	assert.Equal(t, experience, person.Experience())
 	assert.Equal(t, level, person.Level())
 	assert.True(t, person.HasHouse())
-	assert.True(t, person.HasFamily())
+	assert.True(t, person.HasFamilty())
 	assert.False(t, person.HasGun())
 	assert.Equal(t, personType, person.Type())
 }
